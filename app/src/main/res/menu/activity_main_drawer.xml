@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_feed"
+            android:icon="@drawable/ic_menu_feed"
+            android:title="@string/h_rek" />
+        <item
+            android:id="@+id/nav_contacts"
+            android:icon="@drawable/ic_menu_contacts"
+            android:title="@string/telefonk_nyv" />
+        <item
+            android:id="@+id/nav_maps"
+            android:icon="@drawable/ic_menu_maps"
+            android:title="@string/t_rk_p" />
+        <item
+            android:id="@+id/nav_calendar"
+            android:icon="@drawable/ic_menu_calendar"
+            android:title="@string/napt_r" />
+        <item
+            android:id="@+id/nav_neptun"
+            android:icon="@drawable/ic_menu_neptun"
+            android:title="@string/neptun" />
+        <item
+            android:id="@+id/nav_notes"
+            android:icon="@drawable/ic_menu_notes"
+            android:title="@string/jegyzetek" />
+    </group>
+
+    <item android:title="@string/piact_r">
+        <menu>
+            <item
+                android:id="@+id/nav_books"
+                android:icon="@drawable/ic_menu_books"
+                android:title="@string/tanul_shoz" />
+            <item
+                android:id="@+id/nav_rent"
+                android:icon="@drawable/ic_menu_rent"
+                android:title="@string/alb_rlet" />
+            <item
+                android:id="@+id/nav_mother"
+                android:icon="@drawable/ic_menu_mother"
+                android:title="@string/egy_b" />
+        </menu>
+    </item>
+
+    <item android:title="@string/communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/send" />
+            <item
+                android:id="@+id/nav_reg"
+                android:title="Regisztráció"/>
+        </menu>
+    </item>
+
+</menu>
