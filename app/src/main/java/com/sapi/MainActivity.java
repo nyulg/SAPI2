@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity
 
     NavigationView navigationView;
     private SharedPreferences pref;
+    FloatingActionButton faBtn;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -46,8 +47,8 @@ public class MainActivity extends AppCompatActivity
         pref = getPreferences(0);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.search);
-        fab.setOnClickListener(new View.OnClickListener() {
+        faBtn = (FloatingActionButton) findViewById(R.id.search);
+        faBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -69,7 +70,13 @@ public class MainActivity extends AppCompatActivity
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    public void showFloatingActionButton() {
+        faBtn.show();
+    }
 
+    public void hideFloatingActionButton() {
+        faBtn.hide();
+    }
 
     @Override
     public void onBackPressed() {
@@ -133,6 +140,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_reg) {
             initFragment();
+            hideFloatingActionButton();
 
 
             /*startActivity(new Intent(getApplicationContext(), Registration_Activity.class));*/
