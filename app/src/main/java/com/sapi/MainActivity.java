@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        FragmentTransaction main = getSupportFragmentManager().beginTransaction();
+        main.replace(R.id.fragment_frame, new FeedFragment());
+        main.commit();
         pref = getPreferences(0);
 
 
@@ -122,19 +125,24 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_feed) {
-            WebViewFragment webviewfragment = new WebViewFragment();
+            showFloatingActionButton();
+            FeedFragment feedfragment = new FeedFragment();
             fragmentManager.beginTransaction().replace(
-                    R.id.fragment_frame, webviewfragment, webviewfragment.getTag()).commit();
+                    R.id.fragment_frame, feedfragment, feedfragment.getTag()).commit();
             // Handle the camera action
         } else if (id == R.id.nav_contacts) {
 
-        } else if (id == R.id.nav_maps) {
-
         } else if (id == R.id.nav_calendar) {
 
-        } else if (id == R.id.nav_neptun) {
+        } else if (id == R.id.nav_maps) {
 
         } else if (id == R.id.nav_notes) {
+
+        } else if (id == R.id.nav_neptun) {
+            hideFloatingActionButton();
+            NeptunFragment neptunfragment = new NeptunFragment();
+            fragmentManager.beginTransaction().replace(
+                    R.id.fragment_frame, neptunfragment, neptunfragment.getTag()).commit();
 
         } else if (id == R.id.nav_books) {
 
@@ -142,12 +150,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_mother) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         } else if (id == R.id.nav_reg) {
-
             initFragment();
             hideFloatingActionButton();
 

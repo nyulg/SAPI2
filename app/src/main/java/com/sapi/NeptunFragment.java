@@ -31,6 +31,13 @@ public class NeptunFragment extends Fragment {
         // Enable Javascript
         WebSettings webSettings = mNeptun.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setAllowContentAccess(true);
+        webSettings.setEnableSmoothTransition(true);
+        webSettings.setLoadsImagesAutomatically(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setSupportZoom(true);
+        webSettings.setUseWideViewPort(true);
 
         // Force links and redirects to open in the WebView instead of in a browser
         mNeptun.setWebViewClient(new WebViewClient());
