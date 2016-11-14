@@ -1,6 +1,7 @@
 package com.sapi;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -110,13 +111,20 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_feed) {
+            WebViewFragment webviewfragment = new WebViewFragment();
+            fragmentManager.beginTransaction().replace(
+                    R.id.fragment_frame, webviewfragment, webviewfragment.getTag()).commit();
             // Handle the camera action
         } else if (id == R.id.nav_contacts) {
 
@@ -139,6 +147,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.nav_reg) {
+
             initFragment();
             hideFloatingActionButton();
 
@@ -193,7 +202,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initFragment(){
-        Fragment fragment;
+       Fragment fragment;
         if(pref.getBoolean(Constants.IS_LOGGED_IN,false)){
             fragment = new ProfileFragment();
         }else {

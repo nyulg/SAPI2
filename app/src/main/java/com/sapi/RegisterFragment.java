@@ -31,7 +31,6 @@ public class RegisterFragment extends Fragment  implements View.OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_register,container,false);
         initViews(view);
         return view;
