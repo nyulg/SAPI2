@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity
         pref = getPreferences(0);
         sMapFragment=SupportMapFragment.newInstance();
 
-
         faBtn = (FloatingActionButton) findViewById(R.id.search);
         faBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,4 +237,5 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
 
     }
+
 }
