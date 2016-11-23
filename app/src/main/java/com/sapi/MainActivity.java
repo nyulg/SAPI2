@@ -23,16 +23,22 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 
 import static android.R.attr.fragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback
+
 {
 
     NavigationView navigationView;
     private SharedPreferences pref;
     FloatingActionButton faBtn;
+    SupportMapFragment sMapFragment;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -49,6 +55,7 @@ public class MainActivity extends AppCompatActivity
         main.replace(R.id.fragment_frame, new FeedFragment());
         main.commit();
         pref = getPreferences(0);
+        sMapFragment=SupportMapFragment.newInstance();
 
 
         faBtn = (FloatingActionButton) findViewById(R.id.search);
@@ -72,6 +79,8 @@ public class MainActivity extends AppCompatActivity
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+
     }
 
     public void showFloatingActionButton() {
@@ -133,8 +142,16 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_contacts) {
 
         } else if (id == R.id.nav_calendar) {
+            showFloatingActionButton();
+            CalendarFragment calendarfragment = new CalendarFragment();
+            fragmentManager.beginTransaction().replace(
+                    R.id.fragment_frame, calendarfragment, calendarfragment.getTag()).commit();
 
         } else if (id == R.id.nav_maps) {
+            hideFloatingActionButton();
+            MapFragment mapfragment = new MapFragment();
+            fragmentManager.beginTransaction().replace(
+                    R.id.fragment_frame, mapfragment, mapfragment.getTag()).commit();
 
         } else if (id == R.id.nav_notes) {
 
@@ -143,6 +160,7 @@ public class MainActivity extends AppCompatActivity
             NeptunFragment neptunfragment = new NeptunFragment();
             fragmentManager.beginTransaction().replace(
                     R.id.fragment_frame, neptunfragment, neptunfragment.getTag()).commit();
+                    sMapFragment.getMapAsync(this);
 
         } else if (id == R.id.nav_books) {
 
@@ -214,5 +232,10 @@ public class MainActivity extends AppCompatActivity
         android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_frame,fragment);
         ft.commit();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
     }
 }

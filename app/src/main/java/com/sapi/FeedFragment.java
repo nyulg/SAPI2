@@ -12,14 +12,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FeedFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FeedFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class FeedFragment extends Fragment {
     public FeedFragment (){
         // Required empty public constructor

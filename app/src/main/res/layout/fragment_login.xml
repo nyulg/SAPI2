@@ -12,18 +12,17 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
         app:srcCompat="@drawable/ic_sapi"
         android:id="@+id/sapi_view" />
 
     <android.support.design.widget.TextInputLayout
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
-            android:hint="Email"
+            android:hint="E-mail"
             android:id="@+id/et_email"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
@@ -36,14 +35,12 @@
 
     <android.support.design.widget.TextInputLayout
         android:layout_marginTop="8dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
-            android:hint="Password"
+            android:hint="Jelszó"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:id="@+id/et_password"
@@ -58,10 +55,10 @@
         android:id="@+id/btn_login"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:text="Login"
+        android:text="Bejelentkezés"
         android:background="@color/colorPrimary"
         android:textColor="@android:color/white"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
@@ -70,7 +67,7 @@
         android:layout_marginRight="40dp"
         android:layout_marginTop="20dp"
         android:textColor="@color/colorPrimary"
-        android:text="Not Registered ? Register Now !"
+        android:text="Még nem regisztráltál? Tedd meg most!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

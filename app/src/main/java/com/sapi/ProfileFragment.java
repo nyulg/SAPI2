@@ -45,7 +45,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         pref = getActivity().getPreferences(0);
-        tv_name.setText("Welcome : "+pref.getString(Constants.NAME,""));
+        tv_name.setText("Üdv: "+pref.getString(Constants.NAME,"")+"!");
         tv_email.setText(pref.getString(Constants.EMAIL,""));
 
     }
@@ -71,8 +71,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         tv_message = (TextView)view.findViewById(R.id.tv_message);
         progress = (ProgressBar)view.findViewById(R.id.progress);
         builder.setView(view);
-        builder.setTitle("Change Password");
-        builder.setPositiveButton("Change Password", new DialogInterface.OnClickListener() {
+        builder.setTitle("Jelszóváltás");
+        builder.setPositiveButton("Jelszóváltás", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 

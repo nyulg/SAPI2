@@ -12,7 +12,7 @@ import retrofit2.http.POST;
 
 public interface RequestInterface {
 
-  @POST("homokozo/sapi/registration.php")
+  @POST("homokozo/sapi/index.php")
   Call<ServerResponse> operation(@Body ServerRequest request);
 
     }

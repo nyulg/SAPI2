@@ -71,7 +71,7 @@ public class RegisterFragment extends Fragment  implements View.OnClickListener{
 
                 } else {
 
-                    Snackbar.make(getView(), "Fields are empty !", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(getView(), "A mezők üresek!", Snackbar.LENGTH_LONG).show();
                 }
                 break;
 

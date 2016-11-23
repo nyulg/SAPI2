@@ -5,29 +5,29 @@
     android:gravity="center"
     android:background="#f1f1f1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="85dp"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         app:srcCompat="@drawable/ic_sapi"
-        android:id="@+id/sapi_view2" />
+        android:id="@+id/sapi_view2"
+        android:layout_weight="0.03" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
-            android:hint="Name"
+            android:hint="Név"
             android:id="@+id/et_name"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:drawableRight="@drawable/ic_sapi"
             android:inputType="textPersonName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -37,13 +37,11 @@
     <android.support.design.widget.TextInputLayout
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
-            android:hint="Email"
+            android:hint="E-mail"
             android:id="@+id/et_email"
             android:drawableRight="@drawable/ic_menu_books"
             android:inputType="textEmailAddress"
@@ -57,13 +55,11 @@
     <android.support.design.widget.TextInputLayout
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
-            android:hint="Password"
+            android:hint="Jelszó"
             android:id="@+id/et_password"
             android:drawableRight="@drawable/ic_menu_share"
             android:inputType="textPassword"
@@ -76,12 +72,12 @@
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_register"
-        android:text="Register"
+        android:text="Regisztráció"
         android:background="@color/colorPrimary"
         android:textColor="@android:color/white"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
@@ -90,7 +86,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:textColor="@color/colorAccent"
-        android:text="Already Registered ? Login Now !"
+        android:text="Már regisztráltál? Jelentkezz be most!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
