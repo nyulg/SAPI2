@@ -88,7 +88,7 @@ public class GMapV2Direction {
             NodeList nl1;
             nl1 = doc.getElementsByTagName("distance");
 
-            Node node1 = nl1.item(nl1.getLength() - 1);
+            Node node1 = nl1.item(0);
             NodeList nl2 = null;
             nl2 = node1.getChildNodes();
             Node node2 = nl2.item(getNodeIndex(nl2, "value"));
