@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -21,14 +23,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.fitness.data.MapValue;
 import com.google.android.gms.identity.intents.Address;
+import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -37,12 +42,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+
 import android.view.View.OnClickListener;
 
 import org.w3c.dom.Document;
 
 import java.io.IOException;
 import java.security.Provider;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,16 +57,19 @@ import java.util.Map;
 import static android.location.LocationManager.*;
 
 
-public class MapFragment extends Fragment implements LocationListener, OnMapReadyCallback {
+public class MapFragment extends Fragment
+        implements LocationListener, OnMapReadyCallback, LocationSource.OnLocationChangedListener,
+        GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
     public MapFragment() {
         // Required empty public constructor
     }
+
     private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
+    LocationRequest mLocationRequest;
     public MapView mapView;
     public GoogleMap gmap;
     public Marker marker;
-    FloatingActionButton net_FAB, nav_FAB;
+    FloatingActionButton net_FAB, nav_FAB, my_location_FAB;
     EditText location_tf;
     LatLng latlng;
     Location location;
@@ -74,29 +84,35 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         mapView = (MapView) map.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) getActivity())
+                .addOnConnectionFailedListener((GoogleApiClient.OnConnectionFailedListener) getActivity())
+                .addApi(LocationServices.API)
+                .addApi(ActivityRecognition.API)
+                .build();
+        mGoogleApiClient.connect();
         EditText LOC_search = (EditText) map.findViewById(R.id.searh_location_text);
         LOC_search.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (marker != null) {
-                marker.remove();
+                    marker.remove();
                 }
                 EditText location_tf = (EditText) getView().findViewById(R.id.searh_location_text);
                 String location = location_tf.getText().toString();
                 List<android.location.Address> addressList = null;
-                if (location!=null || !location.equals("")){
+                if (location != null || !location.equals("")) {
                     Geocoder geocoder = new Geocoder(getActivity());
                     try {
                         addressList = geocoder.getFromLocationName(location, 1);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-            }
-            android.location.Address address = addressList.get(0);
-            latlng= new LatLng (address.getLatitude(), address.getLongitude());
-            marker = gmap.addMarker(new MarkerOptions().position(latlng));
-            gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
+                }
+                android.location.Address address = addressList.get(0);
+                latlng = new LatLng(address.getLatitude(), address.getLongitude());
+                marker = gmap.addMarker(new MarkerOptions().position(latlng));
+                gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
             }
         });
 
@@ -126,16 +142,17 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         nav_FAB.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                startLocationUpdates();
                 LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     return;
                 }
                 location = locationManager.getLastKnownLocation(GPS_PROVIDER);
+                mLocationRequest = new LocationRequest();
                 /*location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);*/
                 if (location == null) {
                     LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (LocationListener) getActivity());
-
                 } else {
                     //If everything went fine lets get latitude and longitude
                     double c = location.getLatitude();
@@ -166,6 +183,20 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 double d = location.getLongitude();*/
             }
         });
+        my_location_FAB = (FloatingActionButton) map.findViewById(R.id.my_location_fab);
+        my_location_FAB.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startLocationUpdates();
+                if (gmap.getMyLocation() != null) { // Check to ensure coordinates aren't null, probably a better way of doing this...
+                    double c = location.getLatitude();
+                    double d = location.getLongitude();
+                    LatLng myloc = new LatLng(c, d);
+                    gmap.animateCamera(CameraUpdateFactory.newLatLng(myloc));
+                    gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 15));
+                }
+            }
+        });
 
         hideFloatingActionButton();
 
@@ -187,11 +218,13 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
             return;
         }
         gmap.setMyLocationEnabled(true);
-        double c=location.getLatitude();
-        double d=location.getLongitude();
-        LatLng myloc = new LatLng(c,d);
+        /*startLocationUpdates();*/
+        gmap.getUiSettings().setMyLocationButtonEnabled(true);
+        double c = location.getLatitude();
+        double d = location.getLongitude();
+        LatLng myloc = new LatLng(c, d);
         gmap.animateCamera(CameraUpdateFactory.newLatLng(myloc));
-        gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 10));
+        gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 16));
 
     }
 
@@ -232,6 +265,8 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     public void onLocationChanged(Location location) {
 
     }
+
+
 
     /*protected void route(LatLng sourcePosition, LatLng destPosition, String mode) {
         final Handler handler = new Handler() {
@@ -295,4 +330,29 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
             longitude = location.getLongitude();
         }
     }*/
+
+    protected void startLocationUpdates() {
+        mLocationRequest=new LocationRequest();
+        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient, mLocationRequest, (LocationListener) getActivity());
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }

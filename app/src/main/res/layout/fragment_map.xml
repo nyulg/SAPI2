@@ -19,8 +19,8 @@
         android:clickable="true"
         app:fabSize="normal"
         app:srcCompat="@drawable/places_ic_search"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginEnd="18dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
@@ -75,6 +75,18 @@
         android:layout_alignBottom="@+id/searh_location_text"
         android:layout_toRightOf="@+id/searh_location_text"
         android:layout_toEndOf="@+id/searh_location_text" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_search"
+        android:layout_above="@+id/nav_fab"
+        android:layout_marginBottom="15dp"
+        android:layout_alignLeft="@+id/nav_fab"
+        android:layout_alignStart="@+id/nav_fab"
+        android:id="@+id/my_location_fab" />
 
 
 </RelativeLayout>
