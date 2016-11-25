@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.fitness.data.MapValue;
 import com.google.android.gms.identity.intents.Address;
 import com.google.android.gms.location.ActivityRecognition;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -83,6 +85,7 @@ public class MapFragment extends Fragment
         View map = inflater.inflate(R.layout.fragment_map, container, false);
         mapView = (MapView) map.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
+        mLocationRequest=new LocationRequest();
         mapView.getMapAsync(this);
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) getActivity())
@@ -142,7 +145,6 @@ public class MapFragment extends Fragment
         nav_FAB.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                startLocationUpdates();
                 LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
@@ -193,7 +195,7 @@ public class MapFragment extends Fragment
                     double d = location.getLongitude();
                     LatLng myloc = new LatLng(c, d);
                     gmap.animateCamera(CameraUpdateFactory.newLatLng(myloc));
-                    gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 15));
+                    gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 16));
                 }
             }
         });
@@ -208,6 +210,24 @@ public class MapFragment extends Fragment
     public void onMapReady(GoogleMap googleMap) {
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         location = locationManager.getLastKnownLocation(GPS_PROVIDER);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, new android.location.LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+            }
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+            @Override
+            public void onProviderDisabled(String s) {
+            }
+        });
+        /*location = locationManager.getLastKnownLocation(GPS_PROVIDER);*/
         gmap = googleMap;
         /*LatLng bp = new LatLng(47.506340, 19.042851);
         gmap.animateCamera(CameraUpdateFactory.newLatLng(bp));
@@ -219,7 +239,7 @@ public class MapFragment extends Fragment
         }
         gmap.setMyLocationEnabled(true);
         /*startLocationUpdates();*/
-        gmap.getUiSettings().setMyLocationButtonEnabled(true);
+        gmap.getUiSettings().setMyLocationButtonEnabled(false);
         double c = location.getLatitude();
         double d = location.getLongitude();
         LatLng myloc = new LatLng(c, d);
