@@ -18,9 +18,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -46,6 +49,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import org.w3c.dom.Document;
 
@@ -71,12 +75,13 @@ public class MapFragment extends Fragment
     public MapView mapView;
     public GoogleMap gmap;
     public Marker marker;
-    FloatingActionButton net_FAB, nav_FAB, my_location_FAB;
+    FloatingActionButton net_FAB, nav_FAB, hide_LOC, my_location_FAB, eok_FAB, emk_FAB, ferencter_FAB;
     EditText location_tf;
     LatLng latlng;
     Location location;
     double latitude;
     double longitude;
+    Polyline polylin;
     LocationListener locationlistener;
 
     @Override
@@ -94,14 +99,41 @@ public class MapFragment extends Fragment
                 .addApi(ActivityRecognition.API)
                 .build();
         mGoogleApiClient.connect();
-        EditText LOC_search = (EditText) map.findViewById(R.id.searh_location_text);
-        LOC_search.setOnClickListener(new OnClickListener() {
+        EditText LOC_search = (EditText) map.findViewById(R.id.search_location_text);
+        LOC_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
+            public boolean onEditorAction(TextView LOC_search, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH || (keyEvent != null && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    if (marker != null) {
+                        marker.remove();
+                    }
+                    EditText location_tf = (EditText) getView().findViewById(R.id.search_location_text);
+                    String location = location_tf.getText().toString();
+                    List<android.location.Address> addressList = null;
+                    if (location != null || !location.equals("")) {
+                        Geocoder geocoder = new Geocoder(getActivity());
+                        try {
+                            addressList = geocoder.getFromLocationName(location, 1);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    android.location.Address address = addressList.get(0);
+                    latlng = new LatLng(address.getLatitude(), address.getLongitude());
+                    marker = gmap.addMarker(new MarkerOptions().position(latlng));
+                    gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
+                    InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    mgr.hideSoftInputFromWindow(LOC_search.getWindowToken(), 0);
+                }
+            return false;
+            }
+        });
+            /*@Override
             public void onClick(View view) {
                 if (marker != null) {
                     marker.remove();
                 }
-                EditText location_tf = (EditText) getView().findViewById(R.id.searh_location_text);
+                EditText location_tf = (EditText) getView().findViewById(R.id.search_location_text);
                 String location = location_tf.getText().toString();
                 List<android.location.Address> addressList = null;
                 if (location != null || !location.equals("")) {
@@ -117,13 +149,20 @@ public class MapFragment extends Fragment
                 marker = gmap.addMarker(new MarkerOptions().position(latlng));
                 gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
             }
-        });
+        });*/
 
         FloatingActionButton show_LOC = (FloatingActionButton) map.findViewById(R.id.show_loc);
         show_LOC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showFloatingActionButton();
+            }
+        });
+        hide_LOC = (FloatingActionButton) map.findViewById(R.id.hide_loc);
+        hide_LOC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideFloatingActionButton();
             }
         });
         net_FAB = (FloatingActionButton) map.findViewById(R.id.net_fab);
@@ -140,11 +179,56 @@ public class MapFragment extends Fragment
 
             }
         });
+        eok_FAB = (FloatingActionButton) map.findViewById(R.id.eok_fab);
+        eok_FAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LatLng eok = new LatLng(47.481249, 19.078048);
+                if (marker != null) {
+                    marker.remove();
+                }
+                marker = gmap.addMarker(new MarkerOptions().position(eok).title("Elméleti Orvostudományi Központ"));
+                gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(eok, 15));
+                hideFloatingActionButton();
+
+            }
+        });
+        emk_FAB = (FloatingActionButton) map.findViewById(R.id.emk_fab);
+        emk_FAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LatLng emk = new LatLng(47.510507, 19.006626);
+                if (marker != null) {
+                    marker.remove();
+                }
+                marker = gmap.addMarker(new MarkerOptions().position(emk).title("Egészségügyi Menedzserképző Központ"));
+                gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(emk, 15));
+                hideFloatingActionButton();
+
+            }
+        });
+        ferencter_FAB = (FloatingActionButton) map.findViewById(R.id.ferencter_fab);
+        ferencter_FAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LatLng ferencter = new LatLng(47.481604, 19.073338);
+                if (marker != null) {
+                    marker.remove();
+                }
+                marker = gmap.addMarker(new MarkerOptions().position(ferencter).title("Ferenc tér"));
+                gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(ferencter, 15));
+                hideFloatingActionButton();
+
+            }
+        });
 
         nav_FAB = (FloatingActionButton) map.findViewById(R.id.nav_fab);
         nav_FAB.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (polylin!=null){
+                    polylin.remove();
+                }
                 LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
@@ -172,7 +256,7 @@ public class MapFragment extends Fragment
                                 for (int i = 0; i < directionPoint.size(); i++) {
                                     rectLine.add(directionPoint.get(i));
                                 }
-                                Polyline polylin = gmap.addPolyline(rectLine);
+                                polylin = gmap.addPolyline(rectLine);
                                 md.getDurationText(doc);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -250,10 +334,18 @@ public class MapFragment extends Fragment
 
     public void showFloatingActionButton() {
         net_FAB.show();
+        hide_LOC.show();
+        eok_FAB.show();
+        emk_FAB.show();
+        ferencter_FAB.show();
     }
 
     public void hideFloatingActionButton() {
         net_FAB.hide();
+        hide_LOC.hide();
+        eok_FAB.hide();
+        emk_FAB.hide();
+        ferencter_FAB.hide();
     }
 
     @Override

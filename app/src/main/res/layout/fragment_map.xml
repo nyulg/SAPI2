@@ -18,13 +18,13 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         app:fabSize="normal"
-        app:srcCompat="@drawable/places_ic_search"
+        app:srcCompat="@android:drawable/btn_star_big_off"
         android:layout_marginRight="18dp"
         android:layout_marginEnd="18dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="22dp"
         android:id="@+id/show_loc" />
 
     <android.support.design.widget.FloatingActionButton
@@ -34,20 +34,20 @@
         app:fabSize="normal"
         app:srcCompat="@drawable/ic_navigation_white"
         android:id="@+id/nav_fab"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginStart="18dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="22dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         app:fabSize="mini"
-        app:srcCompat="@drawable/ic_net"
-        android:layout_marginBottom="15dp"
+        app:srcCompat="@drawable/ic_net_text"
+        android:layout_marginBottom="10dp"
         android:id="@+id/net_fab"
         android:layout_above="@+id/show_loc"
         android:layout_alignRight="@+id/show_loc"
@@ -56,37 +56,87 @@
 
     <EditText
         android:layout_width="wrap_content"
-        android:inputType=""
-        android:background="#F1F1F1"
+        android:inputType="text"
+        android:background="#FFFFFF"
+        android:maxLines="1"
         android:ems="10"
-        android:id="@+id/searh_location_text"
+        android:imeOptions="actionSearch"
+        android:id="@+id/search_location_text"
         android:layout_alignTop="@+id/mapView"
         android:layout_alignLeft="@+id/nav_fab"
         android:layout_alignStart="@+id/nav_fab"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"/>
-
-    <Button
-        app:srcCompat="@drawable/ic_search_black"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:id="@+id/search_location"
-        android:onClick="true"
-        android:layout_alignBottom="@+id/searh_location_text"
-        android:layout_toRightOf="@+id/searh_location_text"
-        android:layout_toEndOf="@+id/searh_location_text" />
+        android:layout_marginTop="10dp"
+        android:layout_alignRight="@+id/net_fab"
+        android:layout_alignEnd="@+id/net_fab" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_search_black"
+            android:id="@+id/imageView3"
+            android:layout_alignTop="@+id/search_location_text"
+            android:layout_alignBottom="@+id/search_location_text"
+            android:layout_alignRight="@+id/search_location_text"
+            android:layout_alignEnd="@+id/search_location_text" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         app:fabSize="normal"
-        app:srcCompat="@drawable/ic_search"
+        app:srcCompat="@android:drawable/ic_menu_mylocation"
         android:layout_above="@+id/nav_fab"
         android:layout_marginBottom="15dp"
         android:layout_alignLeft="@+id/nav_fab"
         android:layout_alignStart="@+id/nav_fab"
         android:id="@+id/my_location_fab" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@android:drawable/btn_star_big_on"
+        android:layout_alignBottom="@+id/show_loc"
+        android:layout_alignLeft="@+id/show_loc"
+        android:layout_alignStart="@+id/show_loc"
+        android:id="@+id/hide_loc" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_eok_text"
+        android:layout_above="@+id/net_fab"
+        android:layout_alignLeft="@+id/net_fab"
+        android:layout_alignStart="@+id/net_fab"
+        android:id="@+id/eok_fab"
+        android:layout_marginBottom="10dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_emk_text"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/emk_fab"
+        android:layout_above="@+id/eok_fab"
+        android:layout_alignLeft="@+id/eok_fab"
+        android:layout_alignStart="@+id/eok_fab" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_ferencter_text"
+        android:layout_above="@+id/emk_fab"
+        android:layout_alignLeft="@+id/emk_fab"
+        android:layout_alignStart="@+id/emk_fab"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/ferencter_fab" />
 
 
 </RelativeLayout>
