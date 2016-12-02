@@ -1,5 +1,7 @@
 package com.sapi;
 
+import android.*;
+import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -15,6 +17,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -50,6 +53,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Document;
 
@@ -61,11 +65,12 @@ import java.util.List;
 import java.util.Map;
 
 import static android.location.LocationManager.*;
+import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 
 
 public class MapFragment extends Fragment
         implements LocationListener, OnMapReadyCallback, LocationSource.OnLocationChangedListener,
-        GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
+        GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
     public MapFragment() {
         // Required empty public constructor
     }
@@ -82,7 +87,10 @@ public class MapFragment extends Fragment
     double latitude;
     double longitude;
     Polyline polylin;
-    LocationListener locationlistener;
+    android.location.LocationListener locationlistener;
+    public final static int MILLISECONDS_PER_SECOND = 1000;
+    public final static int MINUTE = 60 * MILLISECONDS_PER_SECOND;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,15 +98,26 @@ public class MapFragment extends Fragment
         View map = inflater.inflate(R.layout.fragment_map, container, false);
         mapView = (MapView) map.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
-        mLocationRequest=new LocationRequest();
+        mLocationRequest = new LocationRequest();
         mapView.getMapAsync(this);
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) getActivity())
-                .addOnConnectionFailedListener((GoogleApiClient.OnConnectionFailedListener) getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .addApi(ActivityRecognition.API)
                 .build();
         mGoogleApiClient.connect();
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(MINUTE);
+        mLocationRequest.setFastestInterval(15 * MILLISECONDS_PER_SECOND);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        if (location!=null){
+            double c = location.getLatitude();
+            double d = location.getLongitude();
+            LatLng myloc = new LatLng(c, d);
+            gmap.animateCamera(CameraUpdateFactory.newLatLng(myloc));
+            gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 16));
+        }
         EditText LOC_search = (EditText) map.findViewById(R.id.search_location_text);
         LOC_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -125,7 +144,7 @@ public class MapFragment extends Fragment
                     InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     mgr.hideSoftInputFromWindow(LOC_search.getWindowToken(), 0);
                 }
-            return false;
+                return false;
             }
         });
             /*@Override
@@ -226,55 +245,46 @@ public class MapFragment extends Fragment
         nav_FAB.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (polylin!=null){
+                if (polylin != null) {
                     polylin.remove();
                 }
-                LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    return;
-                }
-                location = locationManager.getLastKnownLocation(GPS_PROVIDER);
-                mLocationRequest = new LocationRequest();
-                /*location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);*/
-                if (location == null) {
-                    LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (LocationListener) getActivity());
+                if (marker == null) {
+                    Snackbar.make(view, "Nem választottál célt!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 } else {
-                    //If everything went fine lets get latitude and longitude
-                    double c = location.getLatitude();
-                    double d = location.getLongitude();
-                    LatLng sourcePosition = new LatLng(c, d);
-                    LatLng destPosition = marker.getPosition();
-                    final Handler handler = new Handler() {
-                        public void handleMessage(Message msg) {
-                            try {
-                                Document doc = (Document) msg.obj;
-                                GMapV2Direction md = new GMapV2Direction();
-                                ArrayList<LatLng> directionPoint = md.getDirection(doc);
-                                PolylineOptions rectLine = new PolylineOptions().width(12).color(getActivity().getResources().getColor(R.color.colorPrimary));
+                    if (location != null) {
+                        double c = location.getLatitude();
+                        double d = location.getLongitude();
+                        LatLng sourcePosition = new LatLng(c, d);
+                        LatLng destPosition = marker.getPosition();
+                        final Handler handler = new Handler() {
+                            public void handleMessage(Message msg) {
+                                try {
+                                    Document doc = (Document) msg.obj;
+                                    GMapV2Direction md = new GMapV2Direction();
+                                    ArrayList<LatLng> directionPoint = md.getDirection(doc);
+                                    PolylineOptions rectLine = new PolylineOptions().width(12).color(getActivity().getResources().getColor(R.color.colorPrimary));
 
-                                for (int i = 0; i < directionPoint.size(); i++) {
-                                    rectLine.add(directionPoint.get(i));
+                                    for (int i = 0; i < directionPoint.size(); i++) {
+                                        rectLine.add(directionPoint.get(i));
+                                    }
+                                    polylin = gmap.addPolyline(rectLine);
+                                    md.getDurationText(doc);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
-                                polylin = gmap.addPolyline(rectLine);
-                                md.getDurationText(doc);
-                            } catch (Exception e) {
-                                e.printStackTrace();
                             }
-                        }
-                    };
-                    new GMapV2DirectionAsyncTask(handler, sourcePosition, destPosition, GMapV2Direction.MODE_DRIVING).execute();
+                        };
+                        new GMapV2DirectionAsyncTask(handler, sourcePosition, destPosition, GMapV2Direction.MODE_DRIVING).execute();
+                    }
                 }
-                /*double c = location.getLatitude();
-                double d = location.getLongitude();*/
             }
         });
         my_location_FAB = (FloatingActionButton) map.findViewById(R.id.my_location_fab);
         my_location_FAB.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                startLocationUpdates();
-                if (gmap.getMyLocation() != null) { // Check to ensure coordinates aren't null, probably a better way of doing this...
+                if (location != null) { // Check to ensure coordinates aren't null, probably a better way of doing this...
                     double c = location.getLatitude();
                     double d = location.getLongitude();
                     LatLng myloc = new LatLng(c, d);
@@ -292,45 +302,108 @@ public class MapFragment extends Fragment
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        gmap = googleMap;
+        gmap.setMyLocationEnabled(true);
+        gmap.getUiSettings().setMyLocationButtonEnabled(false);
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        location = locationManager.getLastKnownLocation(GPS_PROVIDER);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, new android.location.LocationListener() {
+        Criteria criteria = new Criteria();
+        String bestProvider = String.valueOf(locationManager.getBestProvider(criteria, true)).toString();
+        locationlistener = new android.location.LocationListener() {
             @Override
-            public void onLocationChanged(Location location) {
-
+            public void onLocationChanged(Location loc) {
+                double latitude = loc.getLatitude();
+                double longitude = loc.getLongitude();
+                location = new Location("");
+                location.setLatitude(latitude);
+                location.setLongitude(longitude);
+                return;
             }
+
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
-
             }
+
             @Override
-            public void onProviderEnabled(String s) {
-
+            public void onProviderEnabled(String bestProvider) {
+                LocationManager locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION,
+                                Manifest.permission.INTERNET
+                        }, 10);
+                        return;
+                    }
+                    locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationlistener);
+                } else {
+                    locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationlistener);
+                }
             }
+
             @Override
             public void onProviderDisabled(String s) {
+                LocationManager locManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    if (checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION,
+                                Manifest.permission.INTERNET
+                        }, 10);
+                        return;
+                    }
+                    locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationlistener);
+                } else {
+                    locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationlistener);
+                }
             }
-        });
-        /*location = locationManager.getLastKnownLocation(GPS_PROVIDER);*/
+        };
+        location = locationManager.getLastKnownLocation(bestProvider);
+        if (location == null) {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.INTERNET
+                }, 10);
+                return;
+            }
+            locationManager.requestLocationUpdates(bestProvider, 0, 0, locationlistener);
+            return;
+        } else {
+            double c = location.getLatitude();
+            double d = location.getLongitude();
+            LatLng myloc = new LatLng(c, d);
+            gmap.animateCamera(CameraUpdateFactory.newLatLng(myloc));
+            gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 16));
+        }
+
+        /*location = locationManager.getLastKnownLocation(GPS_PROVIDER);
         gmap = googleMap;
         /*LatLng bp = new LatLng(47.506340, 19.042851);
         gmap.animateCamera(CameraUpdateFactory.newLatLng(bp));
         marker = gmap.addMarker(new MarkerOptions().position(bp).title("Buda fckn Pest"));
-        gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(bp, 12));*/
+        gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(bp, 12));
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
+            requestPermissions(new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.INTERNET
+            }, 10);
             return;
         }
-        gmap.setMyLocationEnabled(true);
-        /*startLocationUpdates();*/
+        /*gmap.setMyLocationEnabled(true);
+        startLocationUpdates();
         gmap.getUiSettings().setMyLocationButtonEnabled(false);
         double c = location.getLatitude();
         double d = location.getLongitude();
         LatLng myloc = new LatLng(c, d);
         gmap.animateCamera(CameraUpdateFactory.newLatLng(myloc));
-        gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 16));
+        gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 16));*/
 
     }
+
 
     public void showFloatingActionButton() {
         net_FAB.show();
@@ -374,7 +447,13 @@ public class MapFragment extends Fragment
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(Location loc) {
+        double latitude = loc.getLatitude();
+        double longitude = loc.getLongitude();
+        location = new Location("");
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
+        return;
 
     }
 
@@ -444,9 +523,14 @@ public class MapFragment extends Fragment
     }*/
 
     protected void startLocationUpdates() {
-        mLocationRequest=new LocationRequest();
+        mLocationRequest = new LocationRequest();
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
+            requestPermissions(new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.INTERNET
+            }, 10);
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(
@@ -454,7 +538,26 @@ public class MapFragment extends Fragment
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 10:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    return;
+        }
+
+    }
+
+    @Override
     public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.INTERNET
+            }, 10);
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
     }
 

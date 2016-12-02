@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -27,7 +29,10 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client;
+    public GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +90,8 @@ public class MainActivity extends AppCompatActivity
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).addApi(LocationServices.API)
+                .addApi(ActivityRecognition.API).build();
         client.connect();
 
 
@@ -168,9 +174,11 @@ public class MainActivity extends AppCompatActivity
             NeptunFragment neptunfragment = new NeptunFragment();
             fragmentManager.beginTransaction().replace(
                     R.id.fragment_frame, neptunfragment, neptunfragment.getTag()).commit();
-                    sMapFragment.getMapAsync(this);
 
         } else if (id == R.id.nav_books) {
+            NoteMarket noteMarket = new NoteMarket();
+            fragmentManager.beginTransaction().replace(
+                    R.id.fragment_frame, noteMarket, noteMarket.getTag()).commit();
 
         } else if (id == R.id.nav_rent) {
 
@@ -231,7 +239,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initFragment(){
-       Fragment fragment;
+        Fragment fragment;
         if(pref.getBoolean(Constants.IS_LOGGED_IN,false)){
             fragment = new ProfileFragment();
         }else {
@@ -244,6 +252,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        client.connect();
 
     }
 
@@ -265,5 +274,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+    protected void startLocationUpdates() {
+        LocationRequest mLocationRequest;
+        mLocationRequest=new LocationRequest();
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                client, mLocationRequest,this);
     }
 }

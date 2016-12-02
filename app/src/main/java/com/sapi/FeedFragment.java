@@ -7,10 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
+import android.widget.RelativeLayout;
 
 
 public class FeedFragment extends Fragment {
@@ -24,8 +25,9 @@ public class FeedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View feed = inflater.inflate(R.layout.fragment_feed, container, false);
+        /*RelativeLayout relativeLayout= (RelativeLayout) feed.findViewById(R.id.myprogressbar);
+        relativeLayout.setVisibility(View.GONE);*/
         mFeed = (WebView) feed.findViewById(R.id.webView1);
         mFeed.loadUrl("http://semmelweis.hu/hirek/");
 
