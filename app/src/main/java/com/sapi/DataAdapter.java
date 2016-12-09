@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by nyulg on 2016. 11. 30..
@@ -29,10 +30,11 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public void onBindViewHolder(DataAdapter.ViewHolder viewHolder, int i) {
 
         viewHolder.tv_title.setText(android.get(i).getCim());
-        viewHolder.tv_kar_szak.setText(android.get(i).getKar());
+        viewHolder.tv_kar_szak.setText(android.get(i).getKar() + '-' + android.get(i).getSzak());
         viewHolder.tv_leiras.setText(android.get(i).getLeiras());
-        /*viewHolder.tv_elerhetoseg.setText(android.get(i).getElerhetoseg());*/
+        viewHolder.tv_elerhetoseg.setText(android.get(i).getElerhetoseg());
         viewHolder.tv_ar.setText(android.get(i).getPrice());
+        viewHolder.tv_ker.setText(android.get(i).getKerulet());
     }
 
     @Override
@@ -41,7 +43,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView tv_title,tv_kar_szak,tv_leiras, tv_elerhetoseg, tv_ar;
+        private TextView tv_title,tv_kar_szak,tv_leiras, tv_elerhetoseg, tv_ar, tv_ker;
         public ViewHolder(View view) {
             super(view);
 
@@ -50,6 +52,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             tv_elerhetoseg = (TextView)view.findViewById(R.id.tv_elerhetoseg);
             tv_ar = (TextView)view.findViewById(R.id.tv_ar);
             tv_kar_szak= (TextView) view.findViewById(R.id.tv_kar_szak);
+            tv_ker= (TextView) view.findViewById(R.id.tv_ker);
 
         }
     }

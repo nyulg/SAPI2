@@ -8,6 +8,8 @@ public class Market {
     private String leiras;
     private String elerhetoseg;
     private String ar;
+    private String kerulet;
+
 
     public String getCim() {
         return cim;
@@ -25,9 +27,11 @@ public class Market {
         return leiras;
     }
 
-    /*public String getElerhetoseg() {
+    public String getKerulet() {return kerulet;}
+
+    public String getElerhetoseg() {
         return elerhetoseg;
-    }*/
+    }
 
     public String getPrice() {
         return ar;

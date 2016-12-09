@@ -154,6 +154,9 @@ public class MainActivity extends AppCompatActivity
                     R.id.fragment_frame, feedfragment, feedfragment.getTag()).commit();
             // Handle the camera action
         } else if (id == R.id.nav_contacts) {
+            ContactsFragment contactsFragment = new ContactsFragment();
+            fragmentManager.beginTransaction().replace(
+                    R.id.fragment_frame, contactsFragment, contactsFragment.getTag()).commit();
 
         } else if (id == R.id.nav_calendar) {
             showFloatingActionButton();
@@ -181,6 +184,9 @@ public class MainActivity extends AppCompatActivity
                     R.id.fragment_frame, noteMarket, noteMarket.getTag()).commit();
 
         } else if (id == R.id.nav_rent) {
+            RentMarket rentMarket = new RentMarket();
+            fragmentManager.beginTransaction().replace(
+                    R.id.fragment_frame, rentMarket, rentMarket.getTag()).commit();
 
         } else if (id == R.id.nav_mother) {
 

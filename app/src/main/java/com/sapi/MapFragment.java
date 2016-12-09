@@ -275,7 +275,7 @@ public class MapFragment extends Fragment
                                 }
                             }
                         };
-                        new GMapV2DirectionAsyncTask(handler, sourcePosition, destPosition, GMapV2Direction.MODE_DRIVING).execute();
+                        new GMapV2DirectionAsyncTask(handler, sourcePosition, destPosition, GMapV2Direction.MODE_TRANSIT).execute();
                     }
                 }
             }
