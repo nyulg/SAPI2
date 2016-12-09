@@ -30,11 +30,15 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public void onBindViewHolder(DataAdapter.ViewHolder viewHolder, int i) {
 
         viewHolder.tv_title.setText(android.get(i).getCim());
-        viewHolder.tv_kar_szak.setText(android.get(i).getKar() + '-' + android.get(i).getSzak());
+        if (android.get(i).getSzak()!=null && android.get(i).getKar()!=null) {
+            viewHolder.tv_kar_szak.setText(android.get(i).getKar() + '-' + android.get(i).getSzak());
+        }
         viewHolder.tv_leiras.setText(android.get(i).getLeiras());
         viewHolder.tv_elerhetoseg.setText(android.get(i).getElerhetoseg());
         viewHolder.tv_ar.setText(android.get(i).getPrice());
-        viewHolder.tv_ker.setText(android.get(i).getKerulet());
+        if (android.get(i).getKerulet() != null) {
+            viewHolder.tv_ker.setText(android.get(i).getKerulet());
+        }
     }
 
     @Override
