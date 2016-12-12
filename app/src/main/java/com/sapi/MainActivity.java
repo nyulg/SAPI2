@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity
                     R.id.fragment_frame, feedfragment, feedfragment.getTag()).commit();
             // Handle the camera action
         } else if (id == R.id.nav_contacts) {
+            hideFloatingActionButton();
             ContactsFragment contactsFragment = new ContactsFragment();
             fragmentManager.beginTransaction().replace(
                     R.id.fragment_frame, contactsFragment, contactsFragment.getTag()).commit();

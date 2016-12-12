@@ -53,7 +53,7 @@ public class CalendarFragment extends Fragment {
                 .baseUrl("http://jasehn.eu/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        Request0Interface request = retrofit.create(Request0Interface.class);
+        Request4Interface request = retrofit.create(Request4Interface.class);
         Call<JSONResponse> call = request.getJSON();
         call.enqueue(new Callback<JSONResponse>() {
             @Override

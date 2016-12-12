@@ -1,8 +1,10 @@
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_marginTop="55dp">
+    android:layout_marginTop="55dp"
+    android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/contacts_recycler_view"
@@ -10,4 +12,37 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"/>
 
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_search"
+        android:id="@+id/fab_contacts_search"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_to"
+        android:id="@+id/fab_to"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="87dp"
+        android:layout_marginRight="16dp"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@mipmap/ic_to_active"
+        android:id="@+id/fab_to_active"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="87dp"
+        android:layout_marginRight="16dp"/>
+
+</FrameLayout>

@@ -41,8 +41,23 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         viewHolder.tv_pozicio.setText(android.get(i).getPozicio());
         if (android.get(i).getTO()==1) {
             viewHolder.tv_felfogadas.setText(android.get(i).getFelfogadas());
+        } else {
+            viewHolder.tv_felfogadas.setVisibility(View.GONE);
         }
     }
+
+    /*public void showTO (ContactsAdapter.ViewHolder viewHolder, int i) {
+        while (android.get(i).getTO()==1){
+            viewHolder.tv_name.setText(android.get(i).getNev());
+            viewHolder.tv_phone.setText(android.get(i).getNumber());
+            viewHolder.tv_mail.setText(android.get(i).getMail());
+            viewHolder.tv_room.setText(android.get(i).getSzoba());
+            viewHolder.tv_pozicio.setText(android.get(i).getPozicio());
+            if (android.get(i).getTO() == 1) {
+                viewHolder.tv_felfogadas.setText(android.get(i).getFelfogadas());
+            }
+        }
+    }*/
 
     @Override
     public int getItemCount() {

@@ -8,6 +8,6 @@ import retrofit2.http.GET;
  */
 
 public interface Request0Interface {
-    @GET("homokozo/sapi/naptar_buli.php")
+    @GET("homokozo/sapi/telefonkonyv.php")
     Call<JSONResponse> getJSON();
 }
