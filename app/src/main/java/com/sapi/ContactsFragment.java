@@ -59,7 +59,7 @@ public class ContactsFragment extends Fragment {
                     public void onFailure(Call<JSONResponse> call, Throwable t) {
                         Log.d("Error",t.getMessage());
                     }
-                });
+                }  );
                 fab_TO.setVisibility(View.GONE);
                 fab_activeTO.setVisibility(View.VISIBLE);
             }

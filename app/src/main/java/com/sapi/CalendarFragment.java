@@ -1,20 +1,23 @@
 package com.sapi;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,16 +31,49 @@ public class CalendarFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<Events> data;
     private EventsAdapter adapter;
+    private int day, month, year;
+    private String tipus;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View se_cal = inflater.inflate(R.layout.fragment_calendar, container, false);
         mCal = (CalendarView) se_cal.findViewById(R.id.SE_cal);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) se_cal.findViewById(R.id.calendar_bottom);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.action_orarend:
+                        tipus = "orarend";
+                        loadJSON(day, month, year, tipus);
+                        break;
+                    case R.id.action_vizsga:
+                        tipus="pot";
+                        loadJSON(day, month, year, tipus);
+                        break;
+                    case R.id.action_buli:
+                        tipus="buli";
+                        loadJSON(day, month, year, tipus);
+                        break;
+                }
+                return false;
+            }
+        });
+
+        Calendar c = Calendar.getInstance();
+        year = c.get(Calendar.YEAR);
+        month= c.get(Calendar.MONTH)+1;
+        day= c.get (Calendar.DAY_OF_MONTH);
+        tipus="orarend";
+        loadJSON(day, month, year, tipus);
         mCal.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView calendarView, int i, int i1, int i2) {
-                Toast.makeText(getContext(), "Selected Date:\n" + "Day = " + i2 + "\n" + "Month = " + i1 + "\n" + "Year = " + i, Toast.LENGTH_LONG).show();
+                day=i2;
+                month=i1+1;
+                year=i;
+                loadJSON(day,month,year,tipus);
             }
         });
         recyclerView = (RecyclerView) se_cal.findViewById(R.id.calendar_recycler_view);
@@ -45,16 +81,20 @@ public class CalendarFragment extends Fragment {
         rellayout.setVisibility(View.GONE);*/
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-        loadJSON();
         return se_cal;
     }
-    private void loadJSON(){
+    private void loadJSON(int day, int month, int year, String tipus){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://jasehn.eu/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Request4Interface request = retrofit.create(Request4Interface.class);
-        Call<JSONResponse> call = request.getJSON();
+        Map<String, String> params = new HashMap<>();
+        params.put("day", String.valueOf(this.day));
+        params.put("month", String.valueOf(this.month));
+        params.put("year", String.valueOf(this.year));
+        params.put("tipus", String.valueOf(this.tipus));
+        Call<JSONResponse> call = request.getJSON(params);
         call.enqueue(new Callback<JSONResponse>() {
             @Override
             public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {

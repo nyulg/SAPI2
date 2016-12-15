@@ -6,7 +6,8 @@ public class Market {
     private String kar;
     private String szak;
     private String leiras;
-    private String elerhetoseg;
+    private String email;
+    private String phone;
     private String ar;
     private String kerulet;
 
@@ -29,9 +30,11 @@ public class Market {
 
     public String getKerulet() {return kerulet;}
 
-    public String getElerhetoseg() {
-        return elerhetoseg;
+    public String geteMail() {
+        return email;
     }
+
+    public String getPhone(){return phone;}
 
     public String getPrice() {
         return ar;

@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity
                     R.id.fragment_frame, contactsFragment, contactsFragment.getTag()).commit();
 
         } else if (id == R.id.nav_calendar) {
-            showFloatingActionButton();
+            hideFloatingActionButton();
             CalendarFragment calendarfragment = new CalendarFragment();
             fragmentManager.beginTransaction().replace(
                     R.id.fragment_frame, calendarfragment, calendarfragment.getTag()).commit();
