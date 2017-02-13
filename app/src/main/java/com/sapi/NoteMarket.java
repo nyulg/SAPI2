@@ -1,8 +1,11 @@
 package com.sapi;
 
+import android.support.v4.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.JsonReader;
@@ -23,7 +26,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class NoteMarket extends Fragment {
+public class NoteMarket extends Fragment{
+    FloatingActionButton fab_add;
     private RecyclerView recyclerView;
     private ArrayList<Market> data;
     private DataAdapter adapter;
@@ -37,6 +41,17 @@ public class NoteMarket extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         loadJSON();
+        fab_add = (FloatingActionButton) notemarket.findViewById(R.id.fab_add_book);
+        fab_add.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                AddMarketFragment addmarket = new AddMarketFragment();
+                FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(
+                        R.id.fragment_frame, addmarket, addmarket.getTag()).commit();
+            }
+        });
         return notemarket;
     }
     private void loadJSON(){
@@ -61,4 +76,5 @@ public class NoteMarket extends Fragment {
             }
         });
     }
+
 }

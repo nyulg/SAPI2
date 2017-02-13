@@ -46,7 +46,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         } else {
             viewHolder.tv_phone.setVisibility(View.GONE);
         }
-        viewHolder.tv_ar.setText(android.get(i).getPrice());
+        viewHolder.tv_ar.setText("Ár: " + android.get(i).getPrice()+"Ft");
         if (android.get(i).getKerulet() != "") {
             viewHolder.tv_ker.setText(android.get(i).getKerulet());
         } else {

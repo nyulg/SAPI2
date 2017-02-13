@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:gravity="center"
     android:background="#f1f1f1"
@@ -43,7 +44,6 @@
         <EditText
             android:hint="E-mail"
             android:id="@+id/et_email"
-            android:drawableRight="@drawable/ic_menu_books"
             android:inputType="textEmailAddress"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
@@ -61,7 +61,6 @@
         <EditText
             android:hint="Jelszó"
             android:id="@+id/et_password"
-            android:drawableRight="@drawable/ic_menu_share"
             android:inputType="textPassword"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"

@@ -26,7 +26,6 @@
             android:id="@+id/et_email"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:drawableRight="@drawable/ic_menu_books"
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -44,7 +43,6 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:id="@+id/et_password"
-            android:drawableRight="@drawable/ic_menu_share"
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

@@ -35,11 +35,21 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     public void onBindViewHolder(ContactsAdapter.ViewHolder viewHolder, int i) {
 
         viewHolder.tv_name.setText(android.get(i).getNev());
-        viewHolder.tv_phone.setText(android.get(i).getNumber());
-        viewHolder.tv_mail.setText(android.get(i).getMail());
-        viewHolder.tv_room.setText(android.get(i).getSzoba());
+        if (android.get(i).getNumber() !=""){
+            viewHolder.tv_phone.setText(android.get(i).getNumber());
+        } else {
+            viewHolder.tv_phone.setVisibility(View.GONE);
+        }if (android.get(i).getMail() !=""){
+            viewHolder.tv_mail.setText(android.get(i).getMail());
+        } else {
+            viewHolder.tv_mail.setVisibility(View.GONE);
+        }if (android.get(i).getSzoba() !=""){
+            viewHolder.tv_room.setText(android.get(i).getSzoba());
+        } else {
+            viewHolder.tv_room.setVisibility(View.GONE);
+        }
         viewHolder.tv_pozicio.setText(android.get(i).getPozicio());
-        if (android.get(i).getTO()==1) {
+        if (android.get(i).getTO()!="0") {
             viewHolder.tv_felfogadas.setText(android.get(i).getFelfogadas());
         } else {
             viewHolder.tv_felfogadas.setVisibility(View.GONE);

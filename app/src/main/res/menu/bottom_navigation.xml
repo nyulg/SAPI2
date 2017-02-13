@@ -5,21 +5,21 @@
     <item
         android:id="@+id/action_orarend"
         android:enabled="true"
-        android:icon="@drawable/ic_speaker_dark"
+        android:icon="@drawable/ic_timetable"
         android:title="Órarend/Vizsgák"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_vizsga"
         android:enabled="true"
-        android:icon="@drawable/ic_pause_dark"
+        android:icon="@drawable/quantum_ic_replay_white_24"
         android:title="Pótlás"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_buli"
         android:enabled="true"
-        android:icon="@drawable/mr_ic_cast_dark"
+        android:icon="@drawable/ic_party"
         android:title="Buli"
         app:showAsAction="ifRoom"/>
 

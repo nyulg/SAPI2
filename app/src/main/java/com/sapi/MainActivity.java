@@ -114,29 +114,6 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -172,6 +149,10 @@ public class MainActivity extends AppCompatActivity
                     R.id.fragment_frame, mapfragment, mapfragment.getTag()).commit();
 
         } else if (id == R.id.nav_notes) {
+            hideFloatingActionButton();
+            NoteFragment noteFragment = new NoteFragment();
+            fragmentManager.beginTransaction().replace(
+                    R.id.fragment_frame, noteFragment, noteFragment.getTag()).commit();
 
         } else if (id == R.id.nav_neptun) {
             hideFloatingActionButton();
@@ -180,11 +161,13 @@ public class MainActivity extends AppCompatActivity
                     R.id.fragment_frame, neptunfragment, neptunfragment.getTag()).commit();
 
         } else if (id == R.id.nav_books) {
+            hideFloatingActionButton();
             NoteMarket noteMarket = new NoteMarket();
             fragmentManager.beginTransaction().replace(
                     R.id.fragment_frame, noteMarket, noteMarket.getTag()).commit();
 
         } else if (id == R.id.nav_rent) {
+            hideFloatingActionButton();
             RentMarket rentMarket = new RentMarket();
             fragmentManager.beginTransaction().replace(
                     R.id.fragment_frame, rentMarket, rentMarket.getTag()).commit();
@@ -197,6 +180,8 @@ public class MainActivity extends AppCompatActivity
 
 
             /*startActivity(new Intent(getApplicationContext(), Registration_Activity.class));*/
+        } else if (id == R.id.nav_settings) {
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

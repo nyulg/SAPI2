@@ -11,7 +11,7 @@ public class Contacts {
     private String email;
     private String szoba;
     private String felfogadas;
-    private int TanulmanyiOsztaly;
+    private String TanulmanyiOsztaly;
 
     public String getNev() {
         return nev;
@@ -31,7 +31,7 @@ public class Contacts {
 
     public String getSzoba() {return szoba;}
 
-    public int getTO() {return TanulmanyiOsztaly;}
+    public String getTO() {return TanulmanyiOsztaly;}
 
     public String getFelfogadas() {return felfogadas;}
 
