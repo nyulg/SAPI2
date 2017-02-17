@@ -22,4 +22,6 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="sapi_light" parent="AppTheme" />
+
 </resources>

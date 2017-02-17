@@ -9,19 +9,67 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:theme="@style/AppTheme.AppBarOverlay">
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            />
-
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp">
+                <ImageView
+                    android:layout_alignParentRight="true"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_width="24dp"
+                    android:layout_marginRight="14dp"
+                    android:id="@+id/back"
+                    app:srcCompat="@drawable/ic_back"/>
+                <ImageView
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/map_list"
+                    android:layout_width="24dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_height="?attr/actionBarSize"
+                    app:srcCompat="@android:drawable/ic_menu_sort_by_size"/>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_margin="10dp"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_marginLeft="14dp"
+                    android:id="@+id/map_search"
+                    android:layout_toLeftOf="@id/map_list"
+                    app:srcCompat="@drawable/ic_search"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Semmelweis Egyetem"
+                    android:textAlignment="gravity"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:fontFamily="casual"
+                    android:textColor="#ffffff"
+                    android:id="@+id/sote_text"/>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/map_search"
+                    android:inputType="textAutoComplete"
+                    android:maxLines="1"
+                    android:ems="14"
+                    android:textCursorDrawable="@null"
+                    android:layout_marginBottom="6dp"
+                    android:imeOptions="actionSearch"
+                    android:id="@+id/map_search_text"/>
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
-
     <RelativeLayout
         android:id="@+id/reg"
         android:layout_width="match_parent"

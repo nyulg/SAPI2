@@ -5,14 +5,14 @@
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f1f1f1">
+    android:background="#f1f1f1"
+    android:layout_marginTop="?attr/actionBarSize">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="10dp"
         app:srcCompat="@drawable/ic_sapi"
         android:id="@+id/sapi_view" />
 

@@ -31,6 +31,11 @@ public class ContactsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View contacts = inflater.inflate(R.layout.fragment_contacts, container, false);
+        this.getActivity().findViewById(R.id.sote_text).setVisibility(View.VISIBLE);
+        this.getActivity().findViewById(R.id.back).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_list).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_search).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_search_text).setVisibility(View.GONE);
         recyclerView = (RecyclerView) contacts.findViewById(R.id.contacts_recycler_view);
         /*RelativeLayout rellayout= (RelativeLayout) getActivity().findViewById(R.id.myprogress);
         rellayout.setVisibility(View.GONE);*/

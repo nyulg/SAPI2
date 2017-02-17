@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:layout_marginTop="?attr/actionBarSize">
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="55dp"
         android:apiKey="AIzaSyAu9qyy7m96QC_2VNvYuPJBfNvJ0MGPDP0"
         />
 
@@ -53,31 +53,6 @@
         android:layout_alignRight="@+id/show_loc"
         android:layout_marginRight="8dp"
         android:layout_alignEnd="@+id/show_loc" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:inputType="text"
-        android:background="#FFFFFF"
-        android:maxLines="1"
-        android:ems="10"
-        android:imeOptions="actionSearch"
-        android:id="@+id/search_location_text"
-        android:layout_alignTop="@+id/mapView"
-        android:layout_alignLeft="@+id/nav_fab"
-        android:layout_alignStart="@+id/nav_fab"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:layout_alignRight="@+id/net_fab"
-        android:layout_alignEnd="@+id/net_fab" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/ic_search_black"
-            android:id="@+id/imageView3"
-            android:layout_alignTop="@+id/search_location_text"
-            android:layout_alignBottom="@+id/search_location_text"
-            android:layout_alignRight="@+id/search_location_text"
-            android:layout_alignEnd="@+id/search_location_text" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

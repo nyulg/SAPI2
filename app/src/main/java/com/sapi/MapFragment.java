@@ -21,6 +21,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +54,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,7 +77,8 @@ public class MapFragment extends Fragment
     public MapFragment() {
         // Required empty public constructor
     }
-
+    ActionBar actionBar;
+    public ImageView map_search;
     private GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
     public MapView mapView;
@@ -96,6 +100,21 @@ public class MapFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View map = inflater.inflate(R.layout.fragment_map, container, false);
+        this.getActivity().findViewById(R.id.back).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_list).setVisibility(View.VISIBLE);
+        this.getActivity().findViewById(R.id.map_search).setVisibility(View.VISIBLE);
+        final EditText LOC_search = (EditText) this.getActivity().findViewById(R.id.map_search_text);
+        map_search= (ImageView) getActivity().findViewById(R.id.map_search);
+        map_search.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().findViewById(R.id.map_search_text).setVisibility(View.VISIBLE);
+                getActivity().findViewById(R.id.sote_text).setVisibility(View.GONE);
+                getActivity().findViewById(R.id.map_search_text).requestFocus();
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.showSoftInput(LOC_search, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
         mapView = (MapView) map.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mLocationRequest = new LocationRequest();
@@ -118,7 +137,6 @@ public class MapFragment extends Fragment
             gmap.animateCamera(CameraUpdateFactory.newLatLng(myloc));
             gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloc, 16));
         }
-        EditText LOC_search = (EditText) map.findViewById(R.id.search_location_text);
         LOC_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView LOC_search, int i, KeyEvent keyEvent) {
@@ -126,7 +144,7 @@ public class MapFragment extends Fragment
                     if (marker != null) {
                         marker.remove();
                     }
-                    EditText location_tf = (EditText) getView().findViewById(R.id.search_location_text);
+                    EditText location_tf = (EditText) getActivity().findViewById(R.id.map_search_text);
                     String location = location_tf.getText().toString();
                     List<android.location.Address> addressList = null;
                     if (location != null || !location.equals("")) {
@@ -143,6 +161,8 @@ public class MapFragment extends Fragment
                     gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
                     InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     mgr.hideSoftInputFromWindow(LOC_search.getWindowToken(), 0);
+                    getActivity().findViewById(R.id.map_search_text).setVisibility(View.GONE);
+                    getActivity().findViewById(R.id.sote_text).setVisibility(View.VISIBLE);
                 }
                 return false;
             }

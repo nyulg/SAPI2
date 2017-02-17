@@ -23,6 +23,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -51,6 +53,11 @@ public class MainActivity extends AppCompatActivity
     private SharedPreferences pref;
     FloatingActionButton faBtn;
     SupportMapFragment sMapFragment;
+    int count = getFragmentManager().getBackStackEntryCount();
+    public ImageView imgView;
+    public ImageView map_list;
+    public ImageView map_search;
+    public EditText map_search_text;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -62,13 +69,26 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        imgView= (ImageView) findViewById(R.id.back);
+        imgView.setVisibility(View.GONE);
+        map_list= (ImageView) findViewById(R.id.map_list);
+        map_list.setVisibility(View.GONE);
+        map_search= (ImageView) findViewById(R.id.map_search);
+        map_search.setVisibility(View.GONE);
+        map_search_text= (EditText) findViewById(R.id.map_search_text);
+        map_search_text.setVisibility(View.GONE);
         setSupportActionBar(toolbar);
         FragmentTransaction main = getSupportFragmentManager().beginTransaction();
         main.replace(R.id.fragment_frame, new FeedFragment());
         main.commit();
         pref = getPreferences(0);
         sMapFragment=SupportMapFragment.newInstance();
-
+        imgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         faBtn = (FloatingActionButton) findViewById(R.id.search);
         faBtn.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +114,6 @@ public class MainActivity extends AppCompatActivity
                 .addApi(ActivityRecognition.API).build();
         client.connect();
 
-
     }
 
     public void showFloatingActionButton() {
@@ -111,7 +130,11 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (count == 0) {
+                super.onBackPressed();
+            } else {
+                getFragmentManager().popBackStack();
+            }
         }
     }
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -231,13 +254,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initFragment(){
-        Fragment fragment;
+        android.support.v4.app.Fragment fragment;
         if(pref.getBoolean(Constants.IS_LOGGED_IN,false)){
             fragment = new ProfileFragment();
         }else {
             fragment = new LoginFragment();
         }
-        android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_frame,fragment);
         ft.commit();
     }

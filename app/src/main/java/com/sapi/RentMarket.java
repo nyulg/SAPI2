@@ -29,6 +29,11 @@ public class RentMarket extends Fragment {
                              Bundle savedInstanceState) {
         View rentmarket = inflater.inflate(R.layout.fragment_rent_market, container, false);
         recyclerView = (RecyclerView) rentmarket.findViewById(R.id.rent_recycler_view);
+        this.getActivity().findViewById(R.id.sote_text).setVisibility(View.VISIBLE);
+        this.getActivity().findViewById(R.id.back).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_list).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_search).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_search_text).setVisibility(View.GONE);
         /*RelativeLayout rellayout= (RelativeLayout) getActivity().findViewById(R.id.myprogress);
         rellayout.setVisibility(View.GONE);*/
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());

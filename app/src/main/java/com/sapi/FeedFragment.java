@@ -26,6 +26,11 @@ public class FeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View feed = inflater.inflate(R.layout.fragment_feed, container, false);
+        this.getActivity().findViewById(R.id.sote_text).setVisibility(View.VISIBLE);
+        this.getActivity().findViewById(R.id.back).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_list).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_search).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_search_text).setVisibility(View.GONE);
         /*RelativeLayout relativeLayout= (RelativeLayout) feed.findViewById(R.id.myprogressbar);
         relativeLayout.setVisibility(View.GONE);*/
         mFeed = (WebView) feed.findViewById(R.id.webView1);

@@ -1,6 +1,6 @@
 package com.sapi;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -32,6 +32,11 @@ public class RegisterFragment extends Fragment  implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register,container,false);
+        this.getActivity().findViewById(R.id.sote_text).setVisibility(View.VISIBLE);
+        this.getActivity().findViewById(R.id.back).setVisibility(View.VISIBLE);
+        this.getActivity().findViewById(R.id.map_list).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_search).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_search_text).setVisibility(View.GONE);
         initViews(view);
         return view;
     }
@@ -120,7 +125,7 @@ public class RegisterFragment extends Fragment  implements View.OnClickListener{
     private void goToLogin(){
 
         Fragment login = new LoginFragment();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_frame,login);
         ft.commit();
     }

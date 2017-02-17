@@ -38,6 +38,11 @@ public class CalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View se_cal = inflater.inflate(R.layout.fragment_calendar, container, false);
+        this.getActivity().findViewById(R.id.sote_text).setVisibility(View.VISIBLE);
+        this.getActivity().findViewById(R.id.back).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_list).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_search).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_search_text).setVisibility(View.GONE);
         mCal = (CalendarView) se_cal.findViewById(R.id.SE_cal);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) se_cal.findViewById(R.id.calendar_bottom);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

@@ -25,22 +25,32 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
 public class NoteMarket extends Fragment{
     FloatingActionButton fab_add;
     private RecyclerView recyclerView;
     private ArrayList<Market> data;
     private DataAdapter adapter;
+    SharedPreferences pref;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View notemarket = inflater.inflate(R.layout.fragment_note_market, container, false);
+        this.getActivity().findViewById(R.id.sote_text).setVisibility(View.VISIBLE);
+        this.getActivity().findViewById(R.id.back).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_list).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_search).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_search_text).setVisibility(View.GONE);
+        pref = getActivity().getPreferences(0);
+        notemarket.findViewById(R.id.fab_add_book).setVisibility(View.GONE);
         recyclerView = (RecyclerView) notemarket.findViewById(R.id.notes_recycler_view);
         /*RelativeLayout rellayout= (RelativeLayout) getActivity().findViewById(R.id.myprogress);
         rellayout.setVisibility(View.GONE);*/
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         loadJSON();
+        if(pref.getBoolean(Constants.IS_LOGGED_IN,true)) {
+            notemarket.findViewById(R.id.fab_add_book).setVisibility(View.VISIBLE);
+        }
         fab_add = (FloatingActionButton) notemarket.findViewById(R.id.fab_add_book);
         fab_add.setOnClickListener(new View.OnClickListener(){
 
@@ -48,8 +58,10 @@ public class NoteMarket extends Fragment{
             public void onClick(View v) {
                 AddMarketFragment addmarket = new AddMarketFragment();
                 FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(
-                        R.id.fragment_frame, addmarket, addmarket.getTag()).commit();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.fragment_frame, addmarket, addmarket.getTag())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
         return notemarket;
@@ -76,5 +88,4 @@ public class NoteMarket extends Fragment{
             }
         });
     }
-
 }

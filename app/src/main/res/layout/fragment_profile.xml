@@ -5,7 +5,8 @@
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f1f1f1">
+    android:background="#f1f1f1"
+    android:layout_marginTop="?attr/actionBarSize">
 
     <ImageView
         android:layout_width="match_parent"
@@ -36,7 +37,7 @@
         android:id="@+id/btn_chg_password"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="Jelszóváltás"
         android:background="@color/colorPrimary"
         android:textColor="@android:color/white"

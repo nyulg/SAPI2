@@ -25,6 +25,11 @@ public class NeptunFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View neptun = inflater.inflate(R.layout.fragment_neptun, container, false);
+        this.getActivity().findViewById(R.id.sote_text).setVisibility(View.VISIBLE);
+        this.getActivity().findViewById(R.id.back).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_list).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_search).setVisibility(View.GONE);
+        this.getActivity().findViewById(R.id.map_search_text).setVisibility(View.GONE);
         mNeptun = (WebView) neptun.findViewById(R.id.webView2);
         mNeptun.loadUrl("https://neptunweb.semmelweis.hu/hallgato/login.aspx");
 
