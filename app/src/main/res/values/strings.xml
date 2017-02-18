@@ -27,4 +27,40 @@
     <string name="button">Button</string>
     <string name="name">Name</string>
     <string name="textview">TextView</string>
+
+    <string-array name="kar_array">
+        <item></item>
+        <item>ÁOK</item>
+        <item>EKK</item>
+        <item>ETK</item>
+        <item>FOK</item>
+        <item>GYOK</item>
+    </string-array>
+
+    <string-array name="ker_array">
+        <item></item>
+        <item>I.</item>
+        <item>II.</item>
+        <item>III.</item>
+        <item>IV.</item>
+        <item>V.</item>
+        <item>VI.</item>
+        <item>VII.</item>
+        <item>VIII.</item>
+        <item>IX.</item>
+        <item>X.</item>
+        <item>XI.</item>
+        <item>XII.</item>
+        <item>XIII.</item>
+        <item>XIV.</item>
+        <item>XV.</item>
+        <item>XVI.</item>
+        <item>XVII.</item>
+        <item>XVIII.</item>
+        <item>XIX.</item>
+        <item>XX.</item>
+        <item>XXI.</item>
+        <item>XXII.</item>
+        <item>XXIII.</item>
+    </string-array>
 </resources>

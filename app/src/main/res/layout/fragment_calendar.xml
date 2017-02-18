@@ -12,13 +12,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/SE_cal"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:firstDayOfWeek="2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/SE_cal"
-        android:layout_marginBottom="55dp">
+        android:layout_marginBottom="52dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/calendar_recycler_view"
@@ -30,7 +31,7 @@
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/calendar_bottom"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
         app:menu="@menu/bottom_navigation"
