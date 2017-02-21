@@ -41,6 +41,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import static android.R.attr.fragment;
+import static android.R.attr.toolbarStyle;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -89,7 +90,6 @@ public class MainActivity extends AppCompatActivity
                 onBackPressed();
             }
         });
-
         faBtn = (FloatingActionButton) findViewById(R.id.search);
         faBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,20 +183,12 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(
                     R.id.fragment_frame, neptunfragment, neptunfragment.getTag()).commit();
 
-        } else if (id == R.id.nav_books) {
+        } else if (id == R.id.nav_market) {
             hideFloatingActionButton();
-            NoteMarket noteMarket = new NoteMarket();
+            MarketFragment marketFragment = new MarketFragment();
             fragmentManager.beginTransaction().replace(
-                    R.id.fragment_frame, noteMarket, noteMarket.getTag()).commit();
-
-        } else if (id == R.id.nav_rent) {
-            hideFloatingActionButton();
-            RentMarket rentMarket = new RentMarket();
-            fragmentManager.beginTransaction().replace(
-                    R.id.fragment_frame, rentMarket, rentMarket.getTag()).commit();
-
-        } else if (id == R.id.nav_mother) {
-
+                    R.id.fragment_frame, marketFragment, marketFragment.getTag()).commit();
+            
         } else if (id == R.id.nav_reg) {
             initFragment();
             hideFloatingActionButton();

@@ -26,10 +26,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NoteMarket extends Fragment{
-    FloatingActionButton fab_add;
     private RecyclerView recyclerView;
     private ArrayList<Market> data;
     private DataAdapter adapter;
+    private FloatingActionButton fab_add_market, fab_market_search;
     SharedPreferences pref;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,27 +41,28 @@ public class NoteMarket extends Fragment{
         this.getActivity().findViewById(R.id.map_search).setVisibility(View.GONE);
         this.getActivity().findViewById(R.id.map_search_text).setVisibility(View.GONE);
         pref = getActivity().getPreferences(0);
-        notemarket.findViewById(R.id.fab_add_book).setVisibility(View.GONE);
+        fab_add_market= (FloatingActionButton) this.getActivity().findViewById(R.id.fab_add_market);
+        fab_market_search= (FloatingActionButton) this.getActivity().findViewById(R.id.fab_market_search);
         recyclerView = (RecyclerView) notemarket.findViewById(R.id.notes_recycler_view);
         /*RelativeLayout rellayout= (RelativeLayout) getActivity().findViewById(R.id.myprogress);
         rellayout.setVisibility(View.GONE);*/
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         loadJSON();
-        if(pref.getBoolean(Constants.IS_LOGGED_IN,true)) {
-            notemarket.findViewById(R.id.fab_add_book).setVisibility(View.VISIBLE);
-        }
-        fab_add = (FloatingActionButton) notemarket.findViewById(R.id.fab_add_book);
-        fab_add.setOnClickListener(new View.OnClickListener(){
-
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onClick(View v) {
-                AddMarketFragment addmarket = new AddMarketFragment();
-                FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.fragment_frame, addmarket, addmarket.getTag())
-                        .addToBackStack(null)
-                        .commit();
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState ==RecyclerView.SCROLL_STATE_IDLE){
+                    if(pref.getBoolean(Constants.IS_LOGGED_IN,true)) {
+                        fab_add_market.show();
+                    }
+                    fab_market_search.show();
+                } else {
+                    fab_add_market.hide();
+                    fab_market_search.hide();
+                }
+
+                super.onScrollStateChanged(recyclerView, newState);
             }
         });
         return notemarket;

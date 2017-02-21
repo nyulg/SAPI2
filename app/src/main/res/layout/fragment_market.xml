@@ -1,0 +1,47 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.sapi.MarketFragment"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:background="#f1f1f1"
+    android:id="@+id/market_frame">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/market_tab"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorColor="#ffffff"
+        app:tabTextColor="#f1f1f1"
+        app:tabSelectedTextColor="#ffffff"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/market_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_search"
+        android:id="@+id/fab_market_search"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@android:drawable/ic_menu_add"
+        android:id="@+id/fab_add_market"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="87dp"
+        android:layout_marginRight="16dp"/>
+
+</FrameLayout>

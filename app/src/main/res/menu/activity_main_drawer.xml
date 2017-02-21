@@ -27,24 +27,11 @@
             android:id="@+id/nav_neptun"
             android:icon="@drawable/ic_menu_neptun"
             android:title="@string/neptun" />
+        <item
+            android:id="@+id/nav_market"
+            android:icon="@drawable/ic_menu_mother"
+            android:title="@string/piact_r" />
     </group>
-
-    <item android:title="@string/piact_r">
-        <menu>
-            <item
-                android:id="@+id/nav_books"
-                android:icon="@drawable/ic_menu_books"
-                android:title="@string/tanul_shoz" />
-            <item
-                android:id="@+id/nav_rent"
-                android:icon="@drawable/ic_menu_rent"
-                android:title="@string/alb_rlet" />
-            <item
-                android:id="@+id/nav_mother"
-                android:icon="@drawable/ic_menu_mother"
-                android:title="@string/egy_b" />
-        </menu>
-    </item>
 
     <item android:title="Adminisztráció">
         <menu>
