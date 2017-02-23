@@ -24,4 +24,9 @@ public class JSONResponse {
     private Events [] naptar;
 
     public Events [] getEvents(){return naptar;}
+
+    private AddMarket [] addMarket;
+
+    public AddMarket[] setAddMarket(AddMarket addMarket) {return this.addMarket;}
+
 }

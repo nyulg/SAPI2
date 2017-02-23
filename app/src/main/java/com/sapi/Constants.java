@@ -10,6 +10,7 @@ public class Constants {
     public static final String LOGIN_OPERATION = "login";
     public static final String CHANGE_PASSWORD_OPERATION = "chgPass";
     public static final String GET_MARKET_NOTES_DATA = "request_elements";
+    public static final String ADD_MARKET="addMarket";
 
     public static final String SUCCESS = "success";
     public static final String FAILURE = "failure";
